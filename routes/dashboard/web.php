@@ -1,7 +1,5 @@
 <?php
-
+// use App\Http\Controller\Dashboard\UserController;
 Route::prefix('dashboard')->name('dashboard.')->group(function() {
-	Route::get('', function(){
-		return view('dashboard.index');
-	});
+	Route::resource('user', UserController::class);
 });
