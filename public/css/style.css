@@ -1,0 +1,42 @@
+
+.content{
+    margin-top: 60px;
+}
+.box{
+    width: 80%;
+    margin: 0 auto;
+}
+.action-bar{
+    display: flex;
+    justify-content: space-evenly;
+}
+.action-bar a, .action-bar button{
+    max-width: 50px;
+    max-height: 25px;
+
+}
+.create-box .form-group{
+    width: 70%;
+    margin: 15px auto;
+}
+.add{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+.card{
+    background-color: #fff;
+    padding: 10px 20px
+}
+.index-head{
+    display: flex;
+    margin: 15px 20px;
+    justify-content: space-between;
+}
+.index-head input{
+    width: 400px!important;
+}
+.secondary{
+    background-color: #1d6fa5;
+    color: #f2f2f2;
+}
