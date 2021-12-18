@@ -12,7 +12,7 @@
         @csrf
         <div class="card-body create-box">
             <div class="form-group">
-                <label for="exampleInputEmail1">الاسم الاول</label>
+                <label for="exampleInputEmail1">@lang('site.first_name')</label>
                 <input type="text" name="first_name" class="form-control"  placeholder="ادخل الاسم الاول">
             </div>
             <div class="form-group">
@@ -25,11 +25,11 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">كلمة السر</label>
-                <input type="password" name="password" class="form-control"  placeholder="Password">
+                <input type="password" name="password" class="form-control"  placeholder="كلمة السر">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">اعادة كلمة السر</label>
-                <input type="password" name="password_confirmation" class="form-control" placeholder="Password">
+                <input type="password" name="password_confirmation" class="form-control" placeholder="تأكييد كلمة السر">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary form-control">اضافة</button>

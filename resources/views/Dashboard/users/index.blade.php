@@ -23,24 +23,24 @@
                     <th >الصلاحيات</th>
                     <th >عمليات</th>
                 </tr>
-                <tr>
                     @foreach($users as $user)
-                        <td> {{ $user->id }}</td>
-                        <td> {{ $user->first_name }} {{ $user->last_name }}</td>
-                        <td> {{ $user->email }}</td>
-                        <td> {{ $user->rule }}</td>
-                        <td>
-                            <div class="action-bar">
-                                <a href="{{ route('dashboard.user.edit' , $user->id) }}" class="btn btn-info btn-sm"> <i class="fa fa-edit"></i></a>
-                                <form action="route('dashboard.user.destroy', $user->id)">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> </button>
-                                </form>
-                            </div>
-                        </td>
+                        <tr>
+                            <td> {{ $user->id }}</td>
+                            <td> {{ $user->first_name }} {{ $user->last_name }}</td>
+                            <td> {{ $user->email }}</td>
+                            <td> {{ $user->rule }}</td>
+                            <td>
+                                <div class="action-bar">
+                                    <a href="{{ route('dashboard.user.edit' , $user->id) }}" class="btn btn-info btn-sm"> <i class="fa fa-edit"></i></a>
+                                    <form action="route('dashboard.user.destroy', $user->id)">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
-                </tr>
             </table>
         </div><!-- /.box-body -->
         <div class="box-footer clearfix">

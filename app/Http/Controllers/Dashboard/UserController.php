@@ -43,6 +43,12 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required|confirmed',
         ]);
+        $request_data = $request->except(['password']);
+        $request_data['password'] = bcrypt($request->password);
+        $user = User::create($request_data);
+        session()->flash('success' , 'تم اضافة المستخدم بنجاح ');
+       return redirect()->route('dashboard.users.index');
+
     }
     /**
      * Show the form for editing the specified resource.
