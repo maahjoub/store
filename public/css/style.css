@@ -40,3 +40,12 @@
     background-color: #1d6fa5;
     color: #f2f2f2;
 }
+.nav-pills>li {
+    float: right!important;
+}
+.floats{
+    float: none;
+}
+.tab-pane label{
+    margin-right: 45px;
+}

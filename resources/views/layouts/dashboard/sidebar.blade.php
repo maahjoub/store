@@ -24,13 +24,18 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="active treeview">
-              <a href="#">
+              <a href="">
                 <i class="fa fa-dashboard"></i> <span>لوحة التحكم</span>
               </a>
             </li>
             <li class="active treeview">
               <a href="{{route('dashboard.user.index')}}">
                 <i class="fa fa-dashboard"></i> <span>المشرفين</span>
+              </a>
+            </li>
+              <li class="active treeview">
+              <a href="{{route('dashboard.roles.index')}}">
+                <i class="fa fa-dashboard"></i> <span>الصلاحيات</span>
               </a>
             </li>
           </ul>

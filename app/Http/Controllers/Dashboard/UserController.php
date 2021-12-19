@@ -5,82 +5,85 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\user;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('Dashboard.users.index', compact('users'));
+        $data = User::orderBy('id','asc')->paginate(5);
+        return view('Dashboard.users.index',compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        return view('Dashboard.users.create');
+        $roles = Role::pluck('name','name')->all();
+        return view('Dashboard.users.create',compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        $request->validate([
+        $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
-            'password' => 'required|confirmed',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confirm-password',
+            'roles' => 'required'
         ]);
-        $request_data = $request->except(['password']);
-        $request_data['password'] = bcrypt($request->password);
-        $user = User::create($request_data);
-        session()->flash('success' , 'تم اضافة المستخدم بنجاح ');
-       return redirect()->route('dashboard.users.index');
 
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(user $user)
-    {
-        return view('Dashboard.users.edit');
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+
+        $user = User::create($input);
+        $user->assignRole($request->input('roles'));
+
+        return redirect()->route('dashboard.user.index')
+            ->with('success','User created successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, user $user)
+    public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+
+        return view('Dashboard.users.edit',compact('user','roles','userRole'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(user $user)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'same:confirm-password',
+            'roles' => 'required'
+        ]);
+
+        $input = $request->all();
+        if(!empty($input['password'])){
+            $input['password'] = Hash::make($input['password']);
+        }else{
+            $input = Arr::except($input,array('password'));
+        }
+
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+
+        $user->assignRole($request->input('roles'));
+
+        return redirect()->route('dashboard.user.index')
+            ->with('success','User updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        User::find($id)->delete();
+        return redirect()->route('dashboard.user.index')
+            ->with('success','User deleted successfully');
     }
 }

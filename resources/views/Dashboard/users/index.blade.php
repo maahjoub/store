@@ -23,12 +23,18 @@
                     <th >الصلاحيات</th>
                     <th >عمليات</th>
                 </tr>
-                    @foreach($users as $user)
+                    @foreach($data as $key => $user)
                         <tr>
                             <td> {{ $user->id }}</td>
                             <td> {{ $user->first_name }} {{ $user->last_name }}</td>
                             <td> {{ $user->email }}</td>
-                            <td> {{ $user->rule }}</td>
+                            <td>
+                                @if(!empty($user->getRoleNames()))
+                                    @foreach($user->getRoleNames() as $v)
+                                        <label class="badge badge-success">{{ $v }}</label>
+                                    @endforeach
+                                @endif
+                            </td>
                             <td>
                                 <div class="action-bar">
                                     <a href="{{ route('dashboard.user.edit' , $user->id) }}" class="btn btn-info btn-sm"> <i class="fa fa-edit"></i></a>
